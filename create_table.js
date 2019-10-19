@@ -8,11 +8,11 @@ var knex = require('knex')({
     },
     pool: { min: 0, max: 7 }
   })
-knex.schema.createTable('products', (table) => {
+knex.schema.createTable('Products', (table) => {
     table.increments('no')
     table.string('product')
-    table.string("country")
-    table.string("stages")
+    table.string("catagries")
+    table.string("imported")
     table.float("price")
     table.float("Tax")
     table.float("Total")
