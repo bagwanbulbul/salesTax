@@ -20,7 +20,7 @@ app.post("/products",function(req,res){
     productDetails["Tax"]=tax
     productDetails["Total"]=tax+productDetails["price"]
     productDetails["imported"]=productDetails.imported.toString()
-    knex("Products").insert(productDetails)
+    knex("products").insert(productDetails)
         .then((data)=>{
             res.send(data)
             
@@ -30,43 +30,43 @@ app.post("/products",function(req,res){
     })
 });
 
-// app.get("/get_product",function(req,res){
-//     knex.select("product","price","Tax","Total").from('products')
-//     .then((data)=>{
-//         sales_tax = [],price_list=[],total_list=[],product_list=[]
-//         for (var k of data){
-//             total_list.push(k["Total"])
-//             sales_tax.push(k["Tax"])
-//             price_list.push(k["price"])
-//             product_list.push(k["product"])
-//         }
-//         var sum = 0
-//         list=[]
-//         tax = 0
-//         price=0
-//         totalAmount={}
-//         for (var index=0; (index<sales_tax.length);index++){
-//             bill = {}
-//             bill.product=product_list[index]
-//             bill.price=price_list[index]
-//             bill.tax=sales_tax[index]
-//             bill.grandTotal=total_list[index]
-//             sum = sum+total_list[index]
-//             price=price+price_list[index]
-//             tax=tax+sales_tax[index]
-//             list.push(bill)
+app.get("/get_product",function(req,res){
+    knex.select("product","price","Tax","Total").from("products")
+    .then((data)=>{
+        sales_tax = [],price_list=[],total_list=[],product_list=[]
+        for (var k of data){
+            total_list.push(k["Total"])
+            sales_tax.push(k["Tax"])
+            price_list.push(k["price"])
+            product_list.push(k["product"])
+        }
+        var sum = 0
+        list=[]
+        tax = 0
+        price=0
+        totalAmount={}
+        for (var index=0; (index<sales_tax.length);index++){
+            amount = {}
+            amount.product=product_list[index]
+            amount.price=price_list[index]
+            amount.tax=sales_tax[index]
+            amount.grandTotal=total_list[index]
+            sum = sum+total_list[index]
+            price=price+price_list[index]
+            tax=tax+sales_tax[index]
+            list.push(amount)
             
-//         }   
-//         totalAmount.grandTotal=price
-//         grand_obj.sales_tax=tax
-//         grand_obj.totalBill=sum
-//         list.push(grand_obj)
-//         res.send(list)
+        }   
+        totalAmount.grandTotal=price
+        totalAmount.sales_tax=tax
+        totalAmount.totalprise=sum
+        list.push(totalAmount)
+        res.send(list)
         
-//     }).catch((err)=>{
-//         console.log(err)
-//     })
-// })
+    }).catch((err)=>{
+        console.log(err)
+    })
+})
 
 app.listen(4500, function () {
     console.log('Express server is listening on port 45000');
