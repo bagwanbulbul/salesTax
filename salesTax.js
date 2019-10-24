@@ -30,7 +30,7 @@ app.post("/products",function(req,res){
     })
 });
 
-app.get("/get_product",function(req,res){
+app.get("/getproduct",function(req,res){
     knex.select("product","price","Tax","Total").from("products")
     .then((data)=>{
         sales_tax = [],price_list=[],total_list=[],product_list=[]
@@ -50,7 +50,7 @@ app.get("/get_product",function(req,res){
             amount.product=product_list[index]
             amount.price=price_list[index]
             amount.tax=sales_tax[index]
-            amount.grandTotal=total_list[index]
+            amount.totalPrice=total_list[index]
             sum = sum+total_list[index]
             price=price+price_list[index]
             tax=tax+sales_tax[index]
@@ -64,7 +64,7 @@ app.get("/get_product",function(req,res){
         res.send(list)
         
     }).catch((err)=>{
-        console.log(err)
+        console.log("oops!! something went wrong")
     })
 })
 
